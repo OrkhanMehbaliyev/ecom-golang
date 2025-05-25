@@ -55,3 +55,6 @@ coverage.out
 
 # Node.js related (if you have frontend in same repo)
 node_modules/
+
+# additional
+commands.txt

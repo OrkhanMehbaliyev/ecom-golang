@@ -77,12 +77,13 @@ func (ms *MySQLStorer) CreateOrder(ctx context.Context, o *Order) (*Order, error
 		}
 
 		for _, oi := range order.Items {
+			oi.OrderID = order.ID
 			id, err := createOrderItem(ctx, tx, oi)
 			if err != nil {
 				return fmt.Errorf("error creating order item: %w", err)
 			}
-
 			oi.ID = *id
+
 		}
 
 		return nil
@@ -141,8 +142,8 @@ func (ms *MySQLStorer) GetOrder(ctx context.Context, id int64) (*Order, error) {
 	return &o, nil
 }
 
-func (ms *MySQLStorer) ListOrders(ctx context.Context) ([]Order, error) {
-	var orders []Order
+func (ms *MySQLStorer) ListOrders(ctx context.Context) ([]*Order, error) {
+	var orders []*Order
 	err := ms.db.SelectContext(ctx, &orders, "SELECT * FROM orders")
 	if err != nil {
 		return nil, fmt.Errorf("error listing orders: %w", err)
