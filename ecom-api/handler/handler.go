@@ -205,7 +205,7 @@ func (h *handler) updateOrderStatus(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(uo)
+	json.NewEncoder(w).Encode(toOrderRes(uo))
 }
 
 func (h *handler) getOrder(w http.ResponseWriter, r *http.Request) {
