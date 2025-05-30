@@ -1,6 +1,9 @@
 package handler
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/OrkhanMehbaliyev/ecom-golang/ecom-grpc/pb"
 )
 
@@ -63,6 +66,19 @@ const (
 	Delivered OrderStatus = "delivered"
 )
 
+func toPBOrderStatus(s OrderStatus) (pb.OrderStatus, error) {
+	switch s {
+	case Pending:
+		return pb.OrderStatus_PENDING, nil
+	case Shipped:
+		return pb.OrderStatus_SHIPPED, nil
+	case Delivered:
+		return pb.OrderStatus_DELIVERED, nil
+	default:
+		return 0, fmt.Errorf("unknown error status: %s", s)
+	}
+}
+
 func toOrderRes(o *pb.OrderRes) OrderRes {
 	return OrderRes{
 		ID:            o.Id,
@@ -71,6 +87,7 @@ func toOrderRes(o *pb.OrderRes) OrderRes {
 		ShippingPrice: o.ShippingPrice,
 		TotalPrice:    o.TotalPrice,
 		Items:         toOrderItems(o.Items),
+		Status:        strings.ToLower(o.GetStatus().String()),
 	}
 }
 

@@ -38,6 +38,7 @@ func RegisterRouters(handler *handler) *chi.Mux {
 		r.Route("/orders", func(r chi.Router) {
 			r.Post("/", handler.createOrder)
 			r.With(adminMiddleware).Get("/", handler.listOrders)
+			r.Patch("/status", handler.updateOrderStatus)
 
 			r.Route("/{id}", func(r chi.Router) {
 				r.Delete("/", handler.deleteOrder)
